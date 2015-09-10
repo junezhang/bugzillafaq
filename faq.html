@@ -27,7 +27,7 @@
         </section>
         <section>
           <h4>How long will it be? Why it will be that long?</h4>
-          <p>The likely duration is 10-12 hours. Due to the size of the database, and the differences between the two database engines, the database migration takes a long time, and data integrity issues and data loss are significantly more likely (indeed almost guaranteed) if writes are made to the source database during the migration. </p>
+          <p>The likely duration is 10-12 hours. Due to the size of the database, and the differences between the two database engines, the database migration takes a long time, and data integrity issues and data loss are significantly more likely (indeed almost guaranteed) if writes are made to the source database during the migration.  </p>
         </section>
       
         <section>
@@ -35,6 +35,33 @@
           <p>Users should see a moderate improvement in performance in most use-cases.  The set of features offered by Red Hat Bugzilla will not be unchanged. </p>
         </section>
       
+        <section>
+          <h4>How much will performance be improved?</h4>
+          <p>Here are some test results comparing the production Bugzilla before upgrade with the stage new production Bugzilla. </p>
+          <ul>
+            <li>For a logged-in session, the new production reduces server response time* of opening a Fedora bug from 6.7 to 2.5 seconds, saving 4.2 s or 63%, and of opening a RHEL bug from 4.3 to 3.1 seconds, saving 1.2 s or 28%; server response time to open the advanced search page reduces from 13.9 to 7.7 seconds, a decrease of 6.2 s or 45%.</li>
+            <li>A detailed performance report will be sent later.</li>
+          </ul>
+          <p>Notes:</p>
+          <p>Actual results on user end may vary by network speed, the size of a bug page, and other factors:</p>
+          <ul>
+            <li>The stage environment under test is known to be about 500 milliseconds slower than the actual production</li>
+            <li>Server response time measures the duration from an HTTP request being sent to the last byte of the page being received by the browser; it does not include the time required to render the page. </li>
+          </ul> 
+        </section>
+
+         <section>
+          <h4>What are the known issues?</h4>
+          <p>All high severity issues we found have been fixed; a regression on the "simple search" page has been identified but not fixed due to time constraint; the new product widget and component widget have several issues affecting user experience, and they will be fixed in minor releases later.</p>
+          <h5>Know issues:</h5>
+          <ul>
+            <li><a href='https://bugzilla.redhat.com/show_bug.cgi?id=1260515'>Bug 1260515 - Sub-component value lost when cloning a bug with the product unchanged</a></li>
+            <li><a href='https://bugzilla.redhat.com/show_bug.cgi?id=1260524'>Bug 1260524 - Opening "Simple Search" is much slower now than before on partner BZ</a></li>
+            <li><a href='https://bugzilla.redhat.com/show_bug.cgi?id=1260526'>Bug 1260526 - [UX] Screen focus should jump to the error message place when creating a bug with no input of component or sub-component</a></li>
+            <li><a href='https://bugzilla.redhat.com/show_bug.cgi?id=1260529'>Bug 1260529 - The time of loading product list items is a little long in advanced search page</a></li>
+          </ul>
+        </section>
+
         <section>
           <h4>What alternatives were explored to avoid the outage?</h4>
           <p>There is no feasible alternative to an outage without dramatically increasing the risk of losing or corrupting data.  We have however taken a number of steps to minimize the duration of the outage, including copying most of the attachment data over prior to the outage, as attachments do not change after submission. </p>
@@ -54,8 +81,8 @@
           <h4>Why are we changing from MySQL?</h4>
           <p>We are changing from MySQL to PostgreSQL. Because</p> 
           <ul class="list-style">
-               <li>(a) PostgreSQL has better performance for the database query workload imposed by Bugzilla.</li>
-               <li>(b) the associated pgpool-II software allows us to have a more robust system architecture and enables future improvements in our disaster recovery setup.</li>
+               <li>PostgreSQL has better performance for the database query workload imposed by Bugzilla.</li>
+               <li>The associated pgpool-II software allows us to have a more robust system architecture and enables future improvements in our disaster recovery setup.</li>
             </ul>
         </section>
         
@@ -69,17 +96,7 @@
           <p>In mid-2014, we strengthened Bugzilla's password requirements to protect the confidential data that is stored in Bugzilla.  A grace period was allowed for users to voluntarily change their passwords to meet the new requirements, and this grace period has now ended.  If Bugzilla asks you to change your password, it means that your existing password does not satify the new requirements.  You must select a new password that is at least eight characters long and contains at least one letter, at least one number, and at least one non-alphanumeric character.</p>
         </section>
         
-        <section>
-          <h4>What are the known issues?</h4>
-          <p>All high severity issues we found have been fixed; a regression on the "simple search" page has been identified but not fixed due to time constraint; the new product widget and component widget have several issues affecting user experience, and they will be fixed in minor releases later.</p>
-          <h5>Know issues:</h5>
-          <ul class="list-style">
-            <li><a href='https://bugzilla.redhat.com/show_bug.cgi?id=1260515'>Bug 1260515 - Sub-component value lost when cloning a bug with the product unchanged</a></li>
-            <li><a href='https://bugzilla.redhat.com/show_bug.cgi?id=1260524'>Bug 1260524 - Opening "Simple Search" is much slower now than before on partner BZ</a></li>
-            <li><a href='https://bugzilla.redhat.com/show_bug.cgi?id=1260526'>Bug 1260526 - [UX] Screen focus should jump to the error message place when creating a bug with no input of component or sub-component</a></li>
-            <li><a href='https://bugzilla.redhat.com/show_bug.cgi?id=1260529'>Bug 1260529 - The time of loading product list items is a little long in advanced search page</a></li>
-          </ul>
-        </section>
+       
    </div>
    <div class="faq-ask">
        <div class="notice">
