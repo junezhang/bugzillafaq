@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<head>
+	<meta charset='UTF-8'>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Bugzilla Hardware Upgrade FAQ</title>
+	<link rel="stylesheet" type="text/css" href="css/faq.css">
+</head>
+<body>
+	<div class="container">
+	<div class="faqtitle">
+      <div class="faq-title-content">Bugzilla Hardware Upgrade FAQ
+     </div>
+    </div>
+  <div class="faq-list">
+        <section>
+          <h4>What is the change / outage for?</h4>
+          <p>The production Bugzilla hardware will be replaced by new hardware. At the same time, the database will be changed from MySQL to PostgreSQL.  Together, these two changes will improve Bugzilla's performance and reliability, and will enable further improvements in the future.</p>
+        </section>
+      
+        <section>
+          <h4>When is it planned / when it will be implemented?</h4>
+          <p>The process of migrating to the new hardware will take place over the course of 4 days, starting on the 17th September.  Actions that can be done before a disruptive cut-over to import around 300GB's of attachment data, taking around 30 hours and the initial synchronization of the 5 node database cluster taking a further 4 or more hours will be conducted from the 17th of September.  A disruptive service outage to finalize the import process from a fixed state database will initiate from September 20, 2015, 0:00 UTC and run for at least 10 hours.  Timings of the expected duration of most events have been captured in the Partner Bugzilla migration and are being retested where possible between now and the 17th September.</p>
+        </section>
+        <section>
+          <h4>Why is the outage at that time?</h4>
+          <p>The date of the outage was selected based on analysis of Red Hat and Fedora release calendars to impact the lowest number of activities.  Analysis of data traffic patterns shows a low point at this time of year and the week to week variation in webserver access logs has a low point at this time.  As a 24x7 service, there is no good time to disrupt Bugzilla, this was the least impactful time slot we could locate from our analysis.  Public holidays in Japan on the following day have also influenced the timing as a potential overflow should things go wrong - Japanese customers have been especially vocal about Bugzilla availability and planning activities have been sensitive to the concerns raised with us on numerous occasions.</p>
+        </section>
+        <section>
+          <h4>How long will it be? Why it will be that long?</h4>
+          <p>The likely duration is 10-12 hours. Due to the size of the database, and the differences between the two database engines, the database migration takes a long time, and data integrity issues and data loss are significantly more likely (indeed almost guaranteed) if writes are made to the source database during the migration. </p>
+        </section>
+      
+        <section>
+          <h4>What should be the impact?</h4>
+          <p>Users should see a moderate improvement in performance in most use-cases.  The set of features offered by Red Hat Bugzilla will not be unchanged. </p>
+        </section>
+      
+        <section>
+          <h4>What alternatives were explored to avoid the outage?</h4>
+          <p>There is no feasible alternative to an outage without dramatically increasing the risk of losing or corrupting data.  We have however taken a number of steps to minimize the duration of the outage, including copying most of the attachment data over prior to the outage, as attachments do not change after submission. </p>
+        </section>
+      
+        <section>
+          <h4>Why cant we have the legacy system and new system running in parallel?</h4>
+          <p>Migrating the data between database servers while the data is still changing would significantly increase both the complexity of the migration and the risk of data being lost or corrupted. </p>
+        </section>
+        
+        <section>
+          <h4>Who should be contacted for further questions / concerns?</h4>
+          <p>Red Hat users can contact the Bugzilla Core team via <a href="mailto:bugzilla-feedback@redhat.com"> bugzilla-feedback@redhat.com </a>or Bugzilla itself <a href="https://bugzilla.redhat.com/enter_bug.cgi?product=Bugzilla">https://bugzilla.redhat.com/enter_bug.cgi?product=Bugzilla</a></p>
+        </section>
+        
+        <section>
+          <h4>Why are we changing from MySQL?</h4>
+          <p>We are changing from MySQL to PostgreSQL. Because</p> 
+          <ul class="list-style">
+               <li>(a) PostgreSQL has better performance for the database query workload imposed by Bugzilla.</li>
+               <li>(b) the associated pgpool-II software allows us to have a more robust system architecture and enables future improvements in our disaster recovery setup.</li>
+            </ul>
+        </section>
+        
+        <section>
+          <h4>What is the plan for Bugzilla after the hardware has been upgraded?</h4>
+          <p>Once the Bugzilla upgrade has been completed, we plan to continue providing new features, bug-fixes, and performance improvements selected from our work backlog.  We also plan to upgrade the base software from the upstream Bugzilla 4.4 to Bugzilla 5.0, which provides a number of new features, including a REST API.</p>
+        </section>
+        
+        <section>
+          <h4>Why do I have to change my password?</h4>
+          <p>In mid-2014, we strengthened Bugzilla's password requirements to protect the confidential data that is stored in Bugzilla.  A grace period was allowed for users to voluntarily change their passwords to meet the new requirements, and this grace period has now ended.  If Bugzilla asks you to change your password, it means that your existing password does not satify the new requirements.  You must select a new password that is at least eight characters long and contains at least one letter, at least one number, and at least one non-alphanumeric character.</p>
+        </section>
+        
+        <section>
+          <h4>What are the known issues?</h4>
+          <p>All high severity issues we found have been fixed; a regression on the "simple search" page has been identified but not fixed due to time constraint; the new product widget and component widget have several issues affecting user experience, and they will be fixed in minor releases later.</p>
+          <h5>Know issues:</h5>
+          <ul class="list-style">
+            <li><a href='https://bugzilla.redhat.com/show_bug.cgi?id=1260515'>Bug 1260515 - Sub-component value lost when cloning a bug with the product unchanged</a></li>
+            <li><a href='https://bugzilla.redhat.com/show_bug.cgi?id=1260524'>Bug 1260524 - Opening "Simple Search" is much slower now than before on partner BZ</a></li>
+            <li><a href='https://bugzilla.redhat.com/show_bug.cgi?id=1260526'>Bug 1260526 - [UX] Screen focus should jump to the error message place when creating a bug with no input of component or sub-component</a></li>
+            <li><a href='https://bugzilla.redhat.com/show_bug.cgi?id=1260529'>Bug 1260529 - The time of loading product list items is a little long in advanced search page</a></li>
+          </ul>
+        </section>
+   </div>
+   <div class="faq-ask">
+       <div class="notice">
+          <h4>Contact Bugzilla Team</h4>
+          <p>Red Hat users can contact the Bugzilla Core team via</p>
+          <a href="mailto:bugzilla-feedback@redhat.com"> bugzilla-feedback@redhat.com</a>
+       </div>
+   </div>
+   <div class="clear"></div>
+   <footer class="footer clearfix">
+        <img src="http://ucd.app.eng.bos.redhat.com/design/logo/redhat-logo.png" class="logo-footer">
+        <div class="copyright">
+            Red Hat Bugzilla
+        </div>
+        <div class="clear"></div>
+   </footer>
+</div>
+</body>
+</HTML>
